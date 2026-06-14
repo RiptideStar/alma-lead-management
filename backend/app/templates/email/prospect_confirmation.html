@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <style>
+    body { font-family: Arial, sans-serif; color: #222; line-height: 1.6; }
+    .container { max-width: 580px; margin: 0 auto; padding: 24px; }
+    .header { background: #1a3557; color: #fff; padding: 20px 24px; border-radius: 6px 6px 0 0; }
+    .content { background: #f9f9f9; padding: 24px; border-radius: 0 0 6px 6px; }
+    .footer { margin-top: 24px; font-size: 12px; color: #888; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h2 style="margin:0;">We received your application</h2>
+    </div>
+    <div class="content">
+      <p>Hi {{ first_name }},</p>
+      <p>
+        Thank you for reaching out to Alma. We have received your application and
+        one of our immigration attorneys will review it shortly.
+      </p>
+      <p>
+        We understand that navigating U.S. immigration can feel overwhelming. Our
+        team is here to help guide you through the process every step of the way.
+      </p>
+      <p>
+        You'll hear from us soon. In the meantime, please feel free to reach out
+        if you have any questions.
+      </p>
+      <p>Warm regards,<br/>The Alma Team</p>
+    </div>
+    <div class="footer">
+      Alma Immigration — helping you build your future in the United States.
+    </div>
+  </div>
+</body>
+</html>

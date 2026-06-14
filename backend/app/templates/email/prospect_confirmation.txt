@@ -1,0 +1,13 @@
+Hi {{ first_name }},
+
+Thank you for reaching out to Alma. We have received your application and one of our immigration attorneys will review it shortly.
+
+We understand that navigating U.S. immigration can feel overwhelming. Our team is here to help guide you through the process every step of the way.
+
+You'll hear from us soon. In the meantime, please feel free to reach out if you have any questions.
+
+Warm regards,
+The Alma Team
+
+---
+Alma Immigration — helping you build your future in the United States.

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <style>
+    body { font-family: Arial, sans-serif; color: #222; line-height: 1.6; }
+    .container { max-width: 580px; margin: 0 auto; padding: 24px; }
+    .header { background: #1a3557; color: #fff; padding: 20px 24px; border-radius: 6px 6px 0 0; }
+    .content { background: #f9f9f9; padding: 24px; border-radius: 0 0 6px 6px; }
+    .detail-row { margin: 8px 0; }
+    .label { font-weight: bold; color: #555; }
+    .cta { margin-top: 24px; }
+    .cta a {
+      background: #1a3557; color: #fff; padding: 12px 24px;
+      text-decoration: none; border-radius: 4px; display: inline-block;
+    }
+    .footer { margin-top: 24px; font-size: 12px; color: #888; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h2 style="margin:0;">New lead: {{ first_name }} {{ last_name }}</h2>
+    </div>
+    <div class="content">
+      <p>A new immigration case application has arrived and is waiting for review.</p>
+
+      <div class="detail-row"><span class="label">Name:</span> {{ first_name }} {{ last_name }}</div>
+      <div class="detail-row"><span class="label">Email:</span> {{ email }}</div>
+      <div class="detail-row"><span class="label">Resume:</span> {{ resume_filename }}</div>
+      <div class="detail-row"><span class="label">Submitted:</span> {{ created_at }}</div>
+
+      <div class="cta">
+        <a href="{{ internal_app_url }}">Review this lead →</a>
+      </div>
+    </div>
+    <div class="footer">
+      Alma Immigration internal notification — do not forward.
+    </div>
+  </div>
+</body>
+</html>

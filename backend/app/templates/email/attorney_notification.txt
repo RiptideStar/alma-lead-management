@@ -1,0 +1,13 @@
+New lead: {{ first_name }} {{ last_name }}
+
+A new immigration case application has arrived and is waiting for review.
+
+Name:    {{ first_name }} {{ last_name }}
+Email:   {{ email }}
+Resume:  {{ resume_filename }}
+Submitted: {{ created_at }}
+
+Review this lead: {{ internal_app_url }}
+
+---
+Alma Immigration internal notification — do not forward.
