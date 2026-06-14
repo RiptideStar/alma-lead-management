@@ -1,0 +1,40 @@
+# ---- Python / backend ----
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# ---- Node / frontend ----
+node_modules/
+.next/
+out/
+.turbo/
+*.tsbuildinfo
+next-env.d.ts
+
+# ---- Env / secrets ----
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# ---- Uploaded files / local storage ----
+backend/uploads/
+uploads/
+
+# ---- DB / data ----
+*.sqlite3
+*.db
+pgdata/
+
+# ---- OS / editor ----
+.DS_Store
+.idea/
+.vscode/
+*.log

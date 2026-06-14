@@ -1,0 +1,79 @@
+# One command to run the whole stack: `docker compose up --build`
+# - Postgres (persistence) + Mailpit (email, UI at http://localhost:8025)
+# - FastAPI backend at http://localhost:8000  (docs at /docs)
+# - Next.js frontend at http://localhost:3000
+#
+# For native dev you can bring up only infra: `docker compose up db mailpit`
+# then run backend/frontend on the host (see docs/RUNNING.md).
+
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: alma
+      POSTGRES_PASSWORD: alma
+      POSTGRES_DB: alma
+    ports:
+      # Host port 5433 to avoid clashing with a local Postgres on 5432.
+      # Inside the compose network the backend still connects to db:5432.
+      - "5433:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U alma -d alma"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  mailpit:
+    image: axllent/mailpit:latest
+    environment:
+      MP_SMTP_AUTH_ACCEPT_ANY: "1"
+      MP_SMTP_AUTH_ALLOW_INSECURE: "1"
+    ports:
+      - "1025:1025"   # SMTP
+      - "8025:8025"   # Web UI
+
+  backend:
+    build: ./backend
+    depends_on:
+      db:
+        condition: service_healthy
+      mailpit:
+        condition: service_started
+    environment:
+      DATABASE_URL: postgresql+psycopg://alma:alma@db:5432/alma
+      JWT_SECRET: ${JWT_SECRET:-dev-secret-change-me-in-production}
+      JWT_EXPIRE_MINUTES: ${JWT_EXPIRE_MINUTES:-480}
+      EMAIL_BACKEND: ${EMAIL_BACKEND:-smtp}
+      SMTP_HOST: mailpit
+      SMTP_PORT: 1025
+      EMAIL_FROM: ${EMAIL_FROM:-Alma Leads <no-reply@alma.com>}
+      ATTORNEY_EMAIL: ${ATTORNEY_EMAIL:-attorney@alma.com}
+      ATTORNEY_PASSWORD: ${ATTORNEY_PASSWORD:-almapassword}
+      ATTORNEY_NAME: ${ATTORNEY_NAME:-Alex Attorney}
+      LEAD_NOTIFICATION_EMAIL: ${LEAD_NOTIFICATION_EMAIL:-attorney@alma.com}
+      STORAGE_BACKEND: local
+      UPLOAD_DIR: /data/uploads
+      MAX_UPLOAD_SIZE_MB: ${MAX_UPLOAD_SIZE_MB:-5}
+      ALLOWED_ORIGINS: http://localhost:3000
+      INTERNAL_APP_URL: http://localhost:3000/admin/leads
+    ports:
+      - "8000:8000"
+    volumes:
+      - uploads:/data/uploads
+
+  frontend:
+    build: ./frontend
+    depends_on:
+      backend:
+        condition: service_started
+    environment:
+      BACKEND_URL: http://backend:8000
+      NEXT_PUBLIC_API_URL: http://localhost:8000
+    ports:
+      - "3000:3000"
+
+volumes:
+  pgdata:
+  uploads:
