@@ -2,8 +2,7 @@
 
 import { type NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
-
-const BACKEND_URL = process.env.BACKEND_URL ?? "http://localhost:8000";
+import { fetchBackend } from "@/lib/backend";
 
 export async function PATCH(
   request: NextRequest,
@@ -24,14 +23,13 @@ export async function PATCH(
     return NextResponse.json({ detail: "Invalid request body" }, { status: 400 });
   }
 
-  const backendRes = await fetch(`${BACKEND_URL}/api/leads/${id}`, {
+  const backendRes = await fetchBackend(`/api/leads/${id}`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(body),
-    cache: "no-store",
   });
 
   const data: unknown = await backendRes.json();

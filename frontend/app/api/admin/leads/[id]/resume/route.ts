@@ -3,8 +3,7 @@
 
 import { type NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
-
-const BACKEND_URL = process.env.BACKEND_URL ?? "http://localhost:8000";
+import { fetchBackend } from "@/lib/backend";
 
 export async function GET(
   _request: NextRequest,
@@ -18,9 +17,8 @@ export async function GET(
     return NextResponse.json({ detail: "Unauthorized" }, { status: 401 });
   }
 
-  const backendRes = await fetch(`${BACKEND_URL}/api/leads/${id}/resume`, {
+  const backendRes = await fetchBackend(`/api/leads/${id}/resume`, {
     headers: { Authorization: `Bearer ${token}` },
-    cache: "no-store",
   });
 
   if (!backendRes.ok) {

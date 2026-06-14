@@ -4,8 +4,7 @@
 
 import { type NextRequest, NextResponse } from "next/server";
 import type { AuthResponse, ApiError } from "@/lib/types";
-
-const BACKEND_URL = process.env.BACKEND_URL ?? "http://localhost:8000";
+import { fetchBackend } from "@/lib/backend";
 
 export async function POST(request: NextRequest) {
   let body: unknown;
@@ -17,7 +16,7 @@ export async function POST(request: NextRequest) {
 
   let backendRes: Response;
   try {
-    backendRes = await fetch(`${BACKEND_URL}/api/auth/login`, {
+    backendRes = await fetchBackend("/api/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),

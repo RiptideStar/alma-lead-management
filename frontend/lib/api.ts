@@ -6,8 +6,7 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import type { Lead, LeadListResponse, User } from "./types";
-
-const BACKEND_URL = process.env.BACKEND_URL ?? "http://localhost:8000";
+import { fetchBackend } from "./backend";
 
 async function getToken(): Promise<string | undefined> {
   const jar = await cookies();
@@ -25,11 +24,7 @@ async function backendFetch(
   if (token) {
     headers["Authorization"] = `Bearer ${token}`;
   }
-  const res = await fetch(`${BACKEND_URL}${path}`, {
-    ...init,
-    headers,
-    cache: "no-store",
-  });
+  const res = await fetchBackend(path, { ...init, headers });
   if (res.status === 401) {
     redirect("/login");
   }
